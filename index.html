@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kalkulator Web</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/font-awesome/5.15.2/css/all.min.css"/>
+  <style>
+    .btn {
+      @apply bg-gray-100 hover:bg-gray-300 text-xl font-semibold p-4 rounded transition-all;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-indigo-300 to-purple-500 min-h-screen flex items-center justify-center">
+    
+  <div class="bg-white rounded-2xl shadow-2xl w-80 p-4">
+    <span>
+        <p class="text-center bg-red-400">Kalkulator Qu</p>
+    </span>
+    <div class="text-right text-2xl mb-4 p-2 bg-gray-100 rounded h-16 flex items-center justify-end" id="display">0</div>
+
+    <div class="grid grid-cols-4 gap-3">
+      <button class="btn col-span-2 bg-red-200" onclick="clearDisplay()">AC</button>
+      <button class="btn" onclick="deleteLast()">⌫</button>
+      <button class="btn bg-blue-200" onclick="appendOperator('/')">÷</button>
+
+      <button class="btn" onclick="appendNumber('7')">7</button>
+      <button class="btn" onclick="appendNumber('8')">8</button>
+      <button class="btn" onclick="appendNumber('9')">9</button>
+      <button class="btn bg-blue-200" onclick="appendOperator('*')">×</button>
+
+      <button class="btn" onclick="appendNumber('4')">4</button>
+      <button class="btn" onclick="appendNumber('5')">5</button>
+      <button class="btn" onclick="appendNumber('6')">6</button>
+      <button class="btn bg-blue-200" onclick="appendOperator('-')">−</button>
+
+      <button class="btn" onclick="appendNumber('1')">1</button>
+      <button class="btn" onclick="appendNumber('2')">2</button>
+      <button class="btn" onclick="appendNumber('3')">3</button>
+      <button class="btn bg-blue-200" onclick="appendOperator('+')">+</button>
+
+      <button class="btn col-span-2" onclick="appendNumber('0')">0</button>
+      <button class="btn" onclick="appendNumber('.')">.</button>
+      <button class="btn bg-green-300" onclick="calculate()">=</button>
+    </div>
+  </div>
+
+  <script>
+    let display = document.getElementById('display');
+    let currentInput = '';
+
+    function appendNumber(number) {
+      currentInput += number;
+      updateDisplay();
+    }
+
+    function appendOperator(operator) {
+      if (currentInput === '') return;
+      const lastChar = currentInput.slice(-1);
+      if ('+-*/'.includes(lastChar)) {
+        currentInput = currentInput.slice(0, -1) + operator;
+      } else {
+        currentInput += operator;
+      }
+      updateDisplay();
+    }
+
+    function clearDisplay() {
+      currentInput = '';
+      updateDisplay();
+    }
+
+    function deleteLast() {
+      currentInput = currentInput.slice(0, -1);
+      updateDisplay();
+    }
+
+    function updateDisplay() {
+      display.innerText = currentInput || '0';
+    }
+
+    function calculate() {
+      try {
+        const result = eval(currentInput);
+        currentInput = result.toString();
+        updateDisplay();
+      } catch (e) {
+        display.innerText = 'Error';
+        currentInput = '';
+      }
+    }
+  </script>
+</body>
+</html>
